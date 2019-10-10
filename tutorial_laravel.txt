@@ -1,0 +1,138 @@
+﻿1- instalar composer
+na linha de comandos:
+laravel new myproject 
+
+cria uma pasta myproject com os ficheiros do laravel
+
+
+setup online:
+cd C:\xampp\htdocs\my-laravel-project
+php artisan serve
+
+
+------------------
+
+
+rotas: ficheiro \routes\web.php onde podemos definir as rotas para as views
+views: as views sao armazenadas em \resources\views
+
+layout @extends('layout') , @section(...) ver app exemplar views
+
+
+  <li> {{ $task }} </li>  o {{ }} faz o escape. se fizermos {{ !! frase !!}} é periogoso, XSS
+
+
+controllers:
+  para criar um controller, php artisan make:controller nomedocontroller
+  ou criar o ficheiro manualmente  ( é criado na pasta  um ficheiro class nomecontroller)
+  em /app/http/controllers
+
+
+
+
+.env tem informaçao de base de dados etc
+
+
+para gerar base de dados: php artisan migrate
+
+(um fix para key too long error, ir a appserviceprovider.php )
+
+
+criar uma nova tabela migration integrada
+
+php artisan make:migration create_projects_table
+
+é criado um ficheiro em databases\migration\
+
+
+
+
+modelos:
+(nome do modelo tem de ser sempre o singular do nome da tabela, exemplo: projects, model é Project)
+php artisan make:model Project 
+
+modelos para tabelas da base de dados 
+
+
+ou
+
+php artisan make:model Project -m -f
+
+resources:
+
+se criarmos um resource, ele cria as seguintes routes:
+
+index
+create
+store
+show
+edit
+update
+destroy
+
+que sao o mesmo que criar isto manualmente:
+
+Route::get('/projects', 'ProjectsController@index');
+Route::get('/projects/create', 'ProjectsController@create');
+Route::get('/projects/{project}', 'ProjectsController@show');
+Route::get('/projects/{project}/edit', 'ProjectsController@edit');
+Route::patch('/projects/{project}', 'ProjectsController@update');
+Route::delete('/projects/{project}', 'ProjectsController@destroy');
+
+Route::post('/projects', 'ProjectsController@store');
+
+
+comando: php artisan make:controller PostsController -r -m Post
+
+cria o resourec e o modelo, com os metedos acima ja implementados
+
+
+
+{{ csrf_field() }} ou @csrf para protecçao basica
+
+
+
+dd('test'); para debug
+{{ method_field('PATCH') }}  ou @method('DELETE') para metodo sem ser POST ou GET ou DELETE (especiais)
+
+
+segurança, nos modelos \app\Http\Project por exemplo.
+Temos de dizer quais sao os fields fillable ou dizer quais os que nao podem ser filled para evitar que users
+maliciosos alterem campos que nao podem alterar.
+fillable :  
+  protected $fillable = ['title', 'description'];
+OU
+guarded:
+  protected $guarded = ['id'];
+
+
+
+Project::create([
+	'title' => request('title'),
+	'description' => request('description')
+	]);
+
+
+  ServiceProvider
+
+  php artisan make:provider SocialServiceProvider
+
+  tem de ser declarado em app, procurar serviceprovider
+
+
+
+tutorial dos registos do laracasts esta desatualizado.
+
+step1:
+composer require laravel/ui --dev
+
+php artisan ui vue --auth
+
+
+step2: 
+sacar o bootstrap e o jquery
+ir a views/layouts/app.blade.php
+substituir app.js por bootstrap.min.js
+substituir app.css por bootstrap.css
+adicionar atnes do bootstrap.min.js  o seguinte:
+    <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>

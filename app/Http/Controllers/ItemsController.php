@@ -41,9 +41,9 @@ class ItemsController extends Controller
 
     public function store(){
 
-
+      return "OK";
       $validated = request()->validate([
-        'name' => ['required','min:3','max:255']
+        'name' => ['required']
       ]);
       Item::create($validated);
 
