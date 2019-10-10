@@ -5,7 +5,7 @@
 <div class="content">
 
 
-<form method="POST" action="/items/create/">
+<form method="POST" action="/items/create">
 {{ csrf_field() }}
 
 

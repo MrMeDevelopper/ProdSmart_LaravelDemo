@@ -16,6 +16,7 @@ class ItemsController extends Controller
     }
 
     public function create(){
+    
         return view('items_create');
       }
 
@@ -41,7 +42,7 @@ class ItemsController extends Controller
 
     public function store(){
 
-      return "OK";
+    
       $validated = request()->validate([
         'name' => ['required']
       ]);
